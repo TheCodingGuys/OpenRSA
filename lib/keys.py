@@ -45,10 +45,6 @@ def makeKeyFiles(name, keySize):
     # is the value in name) with the n,e and d,e integers written in
     # them, delimited by a comma.
 
-    # Our safety check will prevent us from overwriting our old key files:
-    if os.path.exists('%s_pubkey.txt' % (name)) or os.path.exists('%s_privkey.txt' % (name)):
-        sys.exit('WARNING: The file %s_pubkey.txt or %s_privkey.txt already exists! Use a different name or delete these files and re-run this program.' % (name, name))
-
     publicKey, privateKey = generateKey(keySize)
 
     print()

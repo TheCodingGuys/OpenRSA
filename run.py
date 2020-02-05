@@ -1,7 +1,5 @@
 from lib.encryption import encryptAndWriteToFile, readFromFileAndDecrypt
-from lib.keys import makeKeyFiles
-from lib.commands import decrypt, encrypt, newusr, rmusr, _help
-
+from lib.commands import decrypt, encrypt, newusr, rmusr, _help, chkey
 import os
 import sys
 
@@ -25,6 +23,9 @@ while True:
 
     elif cmd == 'rmusr':
          rmusr()
+        
+    elif cmd == 'chkey':
+        chkey()
 
     elif cmd == 'exit':
         sys.exit()
