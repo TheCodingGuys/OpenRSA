@@ -1,40 +1,12 @@
-from lib.encryption import encryptAndWriteToFile, readFromFileAndDecrypt
-from lib.commands import decrypt, encrypt, newusr, rmusr, _help, chkey
-import os
-import sys
+from lib.commands import call_command
 
-encrypted_txt = 'msg/encrypted.txt'
-decrypted_txt = 'msg/decrypted.txt'
-
-priv_key = 'data/vsp_privkey.txt'
-pub_key = 'data/vsp_pubkey.txt'
 
 while True:
     cmd = input('>>> ').strip()
 
-    if cmd == 'decrypt':
-        decrypt()
-    
-    elif cmd == 'encrypt':
-        encrypt()
+    if call_command(cmd):
+        if type(call_command(cmd)) is str:
+            print(call_command(cmd))
 
-    elif cmd == 'newusr':
-        newusr()
-
-    elif cmd == 'rmusr':
-         rmusr()
-        
-    elif cmd == 'chkey':
-        chkey()
-
-    elif cmd == 'exit':
-        sys.exit()
-    
-    elif cmd == 'help':
-        _help()
-    
-    elif cmd != '':
-        print('Command not found.')
-
-
-
+        else:
+            print(call_command(cmd)())

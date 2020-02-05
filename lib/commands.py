@@ -3,6 +3,7 @@ from .files import mkfile
 from .keys import makeKeyFiles
 from shutil import rmtree
 import os
+import sys
 
 
 def encrypt():
@@ -15,31 +16,27 @@ def encrypt():
         if user == 'me':
             # check if file is empty
             if os.stat('./me/encrypted.txt').st_size == 0:
-                print('./me/encrypted.txt is empty. Nothing to encrypt.')
-                return
+                return './me/encrypted.txt is empty. Nothing to encrypt.'
             
             # writes encrypted message to file
             with open('./me/encrypted.txt') as f:
                 encryptAndWriteToFile('./me/encrypted.txt', './me/keys/me_pubkey.txt', f.read())
-                return
 
         elif user != 'me':
             # if the file is empty just lets the user know
             if os.stat(f'./users/{user}/encrypted.txt').st_size == 0:
-                print(f'./users/{user}/encrypted.txt is empty. Nothing to encrypt.')
-                return
+                return f'./users/{user}/encrypted.txt is empty. Nothing to encrypt.'
 
             with open(f'./users/{user}/encrypted.txt') as f:
                 try:
                     encryptAndWriteToFile(f'./users/{user}/encrypted.txt',  f'./users/{user}/pubkey.txt', f.read())
                 except Exception:
-                    print(f'Public key is not set! Goto \'./users/{user}/pubkey.txt\' to write the key.')
+                    return f'Public key is not set! Goto \'./users/{user}/pubkey.txt\' to write the key.'
 
             # lets the user know that the file was encrypted successfully
-            print('Successfully wrote encrypted message to \'./me/encrypted.txt\'.')
-            return
+            return 'Successfully wrote encrypted message to \'./me/encrypted.txt\'.'
     
-    print('User not found.')
+    return 'User not found.'
 
 
 def decrypt():
@@ -57,21 +54,18 @@ def decrypt():
                 f.write(readFromFileAndDecrypt(encrypted_file, './me/keys/me_privkey.txt'))
 
             # if succeeded then print it was a success
-            print(f'Successfully decrypted message at /me/decrypted.txt')
-            return
+            return f'Successfully decrypted message at /me/decrypted.txt'
             
-        elif os.path.exists(f'./users/{user}'):
-            encrypted_file = f'./users/{user}/encrypted.txt'
+        encrypted_file = f'./users/{user}/encrypted.txt'
             
-            # decrypts message and writes it to ./users/(user)/decrypted.txt
-            with open(f'./users/{user}/decrypted.txt', 'w') as f:
-                f.write(readFromFileAndDecrypt(encrypted_file, './me/keys/me_privkey.txt'))
+        # decrypts message and writes it to ./users/(user)/decrypted.txt
+        with open(f'./users/{user}/decrypted.txt', 'w') as f:
+            f.write(readFromFileAndDecrypt(encrypted_file, './me/keys/me_privkey.txt'))
 
-            # if succeeded then print it was a success
-            print(f'Successfully decrypted message at /users/{user}/decrypted.txt')
-            return
+        # if succeeded then return it was a success
+        return f'Successfully decrypted message at /users/{user}/decrypted.txt'
 
-    print('User not found.')
+    return 'User not found.'
 
 
 def newusr():
@@ -87,7 +81,7 @@ def newusr():
     # this is will create three files: their public key and their encrypted message and the decrypted message
     mkfile(path + 'pubkey.txt'), mkfile(path + 'encrypted.txt'), mkfile(path + 'decrypted.txt')
 
-    print(f'Make sure to write the public key to \'./users/{username}/pubkey.txt\'')
+    return f'Make sure to write the public key to \'./users/{username}/pubkey.txt\''
 
 
 def rmusr():
@@ -101,10 +95,10 @@ def rmusr():
         if sure == 'y':
             rmtree(f'./users/{username}')
         
-            print(f'Successfully removed user {username}.')
+            return f'Successfully removed user {username}.'
     
     else:
-        print('User not found')
+        return 'User not found'
 
 
 def chkey():
@@ -124,18 +118,54 @@ def chkey():
 
         makeKeyFiles('./me/keys/me', int(key_size))
 
-        print('Successfully changed key.')
+        return 'Successfully changed key.'
+
+
+def _exit():
+    """Terminates."""
+
+    sys.exit()
 
 
 def _help():
     """Displays this message."""
 
-    print(f"""encrypt - {encrypt.__doc__}
+    return f"""encrypt - {encrypt.__doc__}
 decrypt - {decrypt.__doc__}
 newusr - {newusr.__doc__}
 rmusr - {rmusr.__doc__}
 help - {_help.__doc__}
+exit - {_exit.__doc__}
 
 -- ADVANCED --
 chkey - {chkey.__doc__}
-""")
+"""
+
+
+############################## code below is not considered commands ##############################
+
+# all valid commands 
+valid_commands = {
+    'decrypt': decrypt,
+    'encrypt': encrypt,
+    'newusr': newusr,
+    'rmusr': rmusr,
+    'help': _help,
+    'chkey': chkey,
+    'exit': _exit,
+}
+
+
+def call_command(command):
+    """Checks if the parameter 'command' is a valid command."""
+
+    if command:
+        # loops over all valid commands
+        for cmd in valid_commands.keys():
+            # if the command is valid
+            if cmd == command:
+                return valid_commands[cmd]
+
+        return f'\'{command}\' command not found'
+
+
