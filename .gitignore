@@ -1,2 +1,4 @@
 todo.txt
 __pycache__/
+me/keys/me_privkey.txt
+me/keys/me_pubkey.txt
