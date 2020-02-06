@@ -136,6 +136,20 @@ def genkey():
     return generateKey(int(key_size))
 
 
+def _credits():
+    """Credits."""
+
+    return """OpenRSA was developed by Pyja Technologies.
+https://pyja.net
+https://github.com/pyjatech
+
+Source-Code
+https://github.com/pyjatech/OpenRSA
+
+Authors
+https://github.com/vsp0 - Head-Developer"""
+
+
 def _exit():
     """Terminates."""
 
@@ -149,6 +163,7 @@ def _help():
 decrypt - {decrypt.__doc__}
 newusr - {newusr.__doc__}
 rmusr - {rmusr.__doc__}
+credits - {_credits.__doc__}
 help - {_help.__doc__}
 exit - {_exit.__doc__}
 
@@ -170,6 +185,7 @@ valid_commands = {
     'chkey': chkey,
     'exit': _exit,
     'genkey': genkey,
+    'credits': _credits,
 }
 
 
