@@ -1,5 +1,10 @@
 from lib.commands import call_command
+from lib.files import setup
+import os
 
+if not os.path.exists('./me/keys/me_pubkey.txt'):
+    setup()
+    
 
 while True:
     cmd = input('>>> ').strip()
