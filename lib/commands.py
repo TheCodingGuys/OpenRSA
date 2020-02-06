@@ -1,6 +1,6 @@
 from .encryption import encryptAndWriteToFile, readFromFileAndDecrypt
 from .files import mkfile
-from .keys import makeKeyFiles
+from .keys import makeKeyFiles, generateKey
 from shutil import rmtree
 import os
 import sys
@@ -22,19 +22,20 @@ def encrypt():
             with open('./me/encrypted.txt') as f:
                 encryptAndWriteToFile('./me/encrypted.txt', './me/keys/me_pubkey.txt', f.read())
 
-        elif user != 'me':
-            # if the file is empty just lets the user know
-            if os.stat(f'./users/{user}/encrypted.txt').st_size == 0:
-                return f'./users/{user}/encrypted.txt is empty. Nothing to encrypt.'
-
-            with open(f'./users/{user}/encrypted.txt') as f:
-                try:
-                    encryptAndWriteToFile(f'./users/{user}/encrypted.txt',  f'./users/{user}/pubkey.txt', f.read())
-                except Exception:
-                    return f'Public key is not set! Goto \'./users/{user}/pubkey.txt\' to write the key.'
-
-            # lets the user know that the file was encrypted successfully
             return 'Successfully wrote encrypted message to \'./me/encrypted.txt\'.'
+        
+        # if the file is empty just lets the user know
+        if os.stat(f'./users/{user}/encrypted.txt').st_size == 0:
+            return f'./users/{user}/encrypted.txt is empty. Nothing to encrypt.'
+
+        with open(f'./users/{user}/encrypted.txt') as f:
+            try:
+                encryptAndWriteToFile(f'./users/{user}/encrypted.txt',  f'./users/{user}/pubkey.txt', f.read())
+            except Exception:
+                return f'Public key is not set! Goto \'./users/{user}/pubkey.txt\' to write the key.'
+
+        # lets the user know that the file was encrypted successfully
+        return f'Successfully wrote encrypted message to \'./users/{user}/encrypted.txt\'.'
     
     return 'User not found.'
 
@@ -108,6 +109,7 @@ def chkey():
     print('WARNING: THIS ACTION CAN NOT BE UNDONE')
 
     # prompts the user for key size
+    print('Press enter if default.')
     key_size = input('Key size (default is 1024): ')
     sure = input('Are you sure you want to change the current key? [y/n] ').strip().lower()
 
@@ -119,6 +121,19 @@ def chkey():
         makeKeyFiles('./me/keys/me', int(key_size))
 
         return 'Successfully changed key.'
+
+
+def genkey():
+    """Generates a public and a private key with a specified key size."""
+
+    print('Press enter if default.')
+    key_size = input('Key size (default is 1024): ')
+    
+    # if the user didn't specify the key size just use the default
+    if not key_size:
+        key_size = 1024
+
+    return generateKey(int(key_size))
 
 
 def _exit():
@@ -139,6 +154,7 @@ exit - {_exit.__doc__}
 
 -- ADVANCED --
 chkey - {chkey.__doc__}
+genkey - {genkey.__doc__}
 """
 
 
@@ -153,11 +169,12 @@ valid_commands = {
     'help': _help,
     'chkey': chkey,
     'exit': _exit,
+    'genkey': genkey,
 }
 
 
 def call_command(command):
-    """Checks if the parameter 'command' is a valid command."""
+    """Calls the command the user prompts for, used in ./run.py"""
 
     if command:
         # loops over all valid commands
