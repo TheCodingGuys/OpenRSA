@@ -1,4 +1,8 @@
 todo.txt
 __pycache__/
 me/keys/me_privkey.txt
+<<<<<<< HEAD
 me/keys/me_pubkey.txt
+=======
+me/keys/me_pubkey.txt
+>>>>>>> 39bca8e504b8379235caa22bd68df820380c257e
