@@ -10,7 +10,7 @@ For example if you had a friend you wanted to communicate with through an encryp
 ## Installation
 First of all, you need to install [git](https://git-scm.com) if you don't already have it.
 ```
-$ git clone https://github.com/pyjatech/OpenRSA.git
+$ git clone https://github.com/TheCodingGuys/OpenRSA.git
 $ cd OpenRSA/
 $ python3 run.py
 Setting everything up...
