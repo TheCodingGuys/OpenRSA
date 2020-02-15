@@ -1,6 +1,6 @@
 # OpenRSA
-![Lines of Code](https://tokei.rs/b1/github/pyjatech/OpenRSA?category=code) 
-![GitHub repo size](https://img.shields.io/github/repo-size/pyjatech/OpenRSA.svg)
+![Lines of Code](https://tokei.rs/b1/github/TheCodingGuys/OpenRSA?category=code) 
+![GitHub repo size](https://img.shields.io/github/repo-size/TheCodingGuys/OpenRSA.svg)
 
 OpenRSA is a program to encrypt and decrypt the RSA cipher. 
 
