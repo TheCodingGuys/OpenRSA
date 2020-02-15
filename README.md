@@ -1,6 +1,6 @@
 # OpenRSA
-![Lines of Code](https://tokei.rs/b1/github/pyjatech/OpenRSA?category=code) 
-![GitHub repo size](https://img.shields.io/github/repo-size/pyjatech/OpenRSA.svg)
+![Lines of Code](https://tokei.rs/b1/github/TheCodingGuys/OpenRSA?category=code) 
+![GitHub repo size](https://img.shields.io/github/repo-size/TheCodingGuys/OpenRSA.svg)
 
 OpenRSA is a program to encrypt and decrypt the RSA cipher. 
 
@@ -10,7 +10,7 @@ For example if you had a friend you wanted to communicate with through an encryp
 ## Installation
 First of all, you need to install [git](https://git-scm.com) if you don't already have it.
 ```
-$ git clone https://github.com/pyjatech/OpenRSA.git
+$ git clone https://github.com/TheCodingGuys/OpenRSA.git
 $ cd OpenRSA/
 $ python3 run.py
 Setting everything up...
